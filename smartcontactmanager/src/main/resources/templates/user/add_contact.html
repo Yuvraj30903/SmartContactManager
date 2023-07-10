@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::layout(~{::section})}">
+
+<head>
+	<title th:text="${title}">Title</title>
+</head>
+
+<body>
+	<section>
+		<div class="row">
+			<div class="col-md-6 offset-md-3">
+				<div class="my-card mt-2">
+					<h2 class="text-center">Add Contact</h2>
+					<div th:if="!${#strings.isEmpty(msg)}" class="container">
+						<div th:classappend="'alert-'+${type}" class="alert" role="alert">
+							<span th:text="${msg}"></span>
+						</div>
+
+					</div>
+					<hr>
+					<form method="post" enctype="multipart/form-data" th:object="${contact}"
+						th:action="@{/user/add_contact}">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+							</div>
+							<input th:classappend="${#fields.hasErrors('name')}?'is-invalid':''"
+								th:value="${contact.name}" name="name" type="text" class="form-control"
+								placeholder="Enter Name" aria-label="Username" aria-describedby="basic-addon1">
+							<div th:each="e:${#fields.errors('name')}" th:text="${e}" class="invalid-feedback" />
+
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i
+										class="fa-regular fa-user"></i></span>
+							</div>
+							<input th:classappend="${#fields.hasErrors('secondName')}?'is-invalid':''"
+								th:value="${contact.secondName}" name="secondName" type="text" class="form-control"
+								placeholder="Enter SecondName" aria-label="Username" aria-describedby="basic-addon1">
+							<div th:each="e:${#fields.errors('secondName')}" th:text="${e}" class="invalid-feedback" />
+
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i
+										class="fa-solid fa-briefcase"></i></span>
+							</div>
+							<input th:classappend="${#fields.hasErrors('work')}?'is-invalid':''" th:value="${contact.work}" name="work" type="text" class="form-control"
+								placeholder="Enter Work" aria-label="Username" aria-describedby="basic-addon1">
+							<div th:each="e:${#fields.errors('work')}" th:text="${e}" class="invalid-feedback" />
+
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i
+										class="fa-solid fa-envelope"></i></span>
+							</div>
+							<input th:classappend="${#fields.hasErrors('email')}?'is-invalid':''" th:value="${contact.email}" name="email" type="text" class="form-control"
+								placeholder="Enter Email" aria-label="Username" aria-describedby="basic-addon1">
+							<div th:each="e:${#fields.errors('email')}" th:text="${e}" class="invalid-feedback" />
+
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i
+										class="fa-solid fa-phone"></i></span>
+							</div>
+							<input th:classappend="${#fields.hasErrors('phone')}?'is-invalid':''" th:value="${contact.phone}" name="phone" type="text" class="form-control"
+								placeholder="Enter Phone no." aria-label="Username" aria-describedby="basic-addon1">
+							<div th:each="e:${#fields.errors('phone')}" th:text="${e}" class="invalid-feedback" />
+
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i
+										class="fa-solid fa-image"></i></span>
+							</div>
+							<input th:classappend="${#fields.hasErrors('image')}?'is-invalid':''" name="contactimage" type="file" class="form-control" aria-label="Username"
+								aria-describedby="basic-addon1">
+							<div th:each="e:${#fields.errors('image')}" th:text="${e}" class="invalid-feedback" />
+
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i
+										class="fa-solid fa-address-card"></i></span>
+							</div>
+							<textarea class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+								th:text="${contact.description}" name="description" placeholder="Enter Description" />
+						</div>
+
+
+						<button type="submit" class="btn btn-primary">Add Contact</button>
+						<button type="reset" class="btn btn-warning">Reset</button>
+					</form>
+				</div>
+
+			</div>
+		</div>
+
+	</section>
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::layout(~{::section})}">
+
+<head>
+	<title th:text="${title}">Title</title>
+</head>
+
+<body>
+	<section>
+		<div class="container text-center bg-white pt-3">
+
+
+
+			<div th:if="!${#strings.isEmpty(msg)}" class="msg alert alert-success">
+				<span th:text="${msg}"></span>
+			</div>
+			<img style="width: 200px;height: 200px;" class="profile_picture" src=""
+				th:src="@{ '/image/'+${contact.getImage()}}" />
+
+			<h1 class="contactName pb-2 pt-2"><span
+					th:text="${contact.getName()+'('+contact.getSecondName()+')'}"></span></h1>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col"><span th:text="${'SCM'+contact.getCid()}"></span></th>
+						<!--
+						<th scope="col">Work</th>
+						<th scope="col">Email</th>
+						<th scope="col">Phone</th>-->
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="col">Email</th>
+						<th scope="col"><span th:text="${contact.getEmail()}"></span></th>
+					</tr>
+					<tr>
+						<th scope="col">Phone</th>
+						<th scope="col"><span th:text="${contact.getPhone()}"></span></th>
+					</tr>
+					<tr>
+						<th scope="col">Work</th>
+						<th scope="col"><span th:text="${contact.getWork()}"></span></th>
+					</tr>
+				</tbody>
+			</table>
+			<h3 class="desc pt-2 pb-2" th:text="${contact.getDescription()}"></h3>
+			<div class="action pb-3">
+				<button th:onclick="|updateContact(${contact.getCid})|" class="btn btn-primary btn-sm">Update</button>
+				<button th:onclick="|deleteContact(${contact.getCid})|" class="btn btn-danger btn-sm">Delete</button>
+			</div>
+		</div>
+
+
+	</section>
+
+</body>
+
+</html>

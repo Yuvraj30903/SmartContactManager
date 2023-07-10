@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Sign Up</title>
+</head>
+
+<body>
+	<section>
+
+		<div class="row">
+			<div class="col-md-6 offset-md-3 mt-5">
+				<div class="my-card mt-2">
+					<div th:if="${msg}" class="alert " th:classappend="${type}"  role="alert">
+						<span th:text="${msg}"></span>
+						
+					</div>
+
+					<h1 class="text-center">Register Here!!!</h1>
+					<form method="post" th:action="@{/signup}" th:object="${user}" >
+						<div class="form-group">
+							<label for="exampleInputEmail1">Name</label>
+							<input th:classappend="${#fields.hasErrors('name')}?'is-invalid':''"  name="name" type="text" class="form-control" id="exampleInputEmail1"
+								aria-describedby="emailHelp" placeholder="Enter name" th:value="${user.getName()}">
+							 <div th:each="e:${#fields.errors('name')}"  th:text="${e}"class="invalid-feedback" />
+						
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Email</label>
+							<input th:classappend="${#fields.hasErrors('email')}?'is-invalid':''" name="email" type="email" class="form-control" id="exampleInputPassword1" placeholder="Enter email" th:value="${user.getEmail()}">
+							<div th:each="e:${#fields.errors('email')}"  th:text="${e}"class="invalid-feedback" />
+				 
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Password</label>
+							<input th:classappend="${#fields.hasErrors('password')}?'is-invalid':''" name="password" type="password" class="form-control" id="exampleInputPassword1"
+								placeholder="Password" th:value="${user.getPassword()}">
+								<div th:each="e:${#fields.errors('password')}"  th:text="${e}"class="invalid-feedback" />
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlTextarea1">Tell about yourself</label>
+							<textarea name="about" class="form-control" id="exampleFormControlTextarea1" placeholder="tell something..." rows="3" th:text="${user.getAbout()}" ></textarea>
+						</div>
+						<div class="form-group form-check">
+							
+							<label class="form-check-label" for="exampleCheck1">
+								<input name="agreement" type="checkbox" class="form-check-input" id="agreement" >
+								Agree Terms & Conditions
+							</label>
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="reset" class="btn btn-warning">Reset</button>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

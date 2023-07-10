@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::layout(~{::section})}">
+
+<head>
+	<title th:text="${title}">Title</title>
+</head>
+
+<body>
+	<section>
+		<div class="container text-center bg-white pt-3 pb-5">
+
+
+
+			<div th:if="!${#strings.isEmpty(msg)}" class="msg alert alert-success">
+				<span th:text="${msg}"></span>
+			</div>
+			<img style="width: 200px;height: 200px;" class="profile_picture" src=""
+				th:src="@{ '/image/'+${user.getImageUrl()}}" />
+
+			<h1 class="contactName pb-2 pt-2"><span th:text="${user.getName()}"></span></h1>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col"><span th:text="${'USER'+user.getId()}"></span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="col">Email</th>
+						<th scope="col"><span th:text="${user.getEmail()}"></span></th>
+					</tr>
+					<tr>
+						<th scope="col">Role</th>
+						<th scope="col"><span th:text="${user.getRole()}"></span></th>
+					</tr>
+
+					<tr>
+						<th colspan="2">
+							<span th:text="${user.getAbout()}"></span>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+			<!--<div class="action pb-3">
+				<a th:onclick="|updateContact(${contact.getCid})|" class="btn btn-primary btn-sm">Update</a>
+				<a th:onclick="|deleteContact(${contact.getCid})|" class="btn btn-danger btn-sm">Delete</a>
+			</div>-->
+		</div>
+
+
+	</section>
+
+</body>
+
+</html>

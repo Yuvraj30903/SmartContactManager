@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::layout(~{::section})}">
+
+<head>
+	<title th:text="${title}">Title</title>
+</head>
+
+<body>
+	<section>
+		<div class="container bg-white text-center pt-5 pb-3">
+			<img style="width: 200px;height: 200px;" class="profile_picture" src="" th:src="@{ '/image/logo.jpg'}" />
+			<h1 class="text-center pt-4">Smart Contact<br> Manager</h1>
+			<h3 class="text-center pt-2">For You</h3>
+			<hr>
+			
+			<p style="font-size: 50px;font-family: Monospace;">A smart and organized way<br> of managing your contacts <i class="fa-solid fa-right"></i></p>
+			<a th:href="@{/user/add_contact}" class="btn btn-block btn-primary"><i class="fa-solid fa-arrow-right"></i>   Add new Contact</a>
+		</div>
+		<div>
+			
+		</div>
+
+	</section>
+
+</body>
+
+</html>
