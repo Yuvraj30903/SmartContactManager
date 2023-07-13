@@ -34,7 +34,7 @@ public class Contact  {
 	private String description;
 	
 	@JsonIgnore
-	@ManyToOne()
+	@ManyToOne 
 	private User user;
 	public Contact(int cid, String name, String secondName, String work, String email, String phone, String image,
 			String description) {

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,7 +78,7 @@ public class TestController {
 		}  
 		r.addFlashAttribute("type", "alert-success");
 		r.addFlashAttribute("msg", "User Registred Successfully...");
-		user.setEnabled(false);
+		user.setEnabled(true);
 		user.setRole("ROLE_USER");
 		user.setImageUrl("default.png");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -166,4 +167,7 @@ public class TestController {
 //		r.addAttribute("msg","Password has been successfully changed");
 //		return "redirect:signin";
 	}
+ 	
+	
+
 }

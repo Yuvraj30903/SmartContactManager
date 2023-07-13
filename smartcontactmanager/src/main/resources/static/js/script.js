@@ -15,6 +15,13 @@ document.querySelectorAll(".nav-link").forEach((link) => {
 	if (link.href === window.location.href.split("?")[0]) { 
 		link.classList.add("active");
 	}
+	if (window.location.href.split("?")[0].startsWith("http://localhost:8080/user/view_contacts/") & link.href.startsWith("http://localhost:8080/user/view_contacts/"))
+	 {
+		console.log(window.location.href.split("?")[0]);
+		console.log("here");
+		
+	 link.classList.add("active"); 
+	}
 }
 ); 
 document.querySelectorAll("#side-link").forEach((link) => {
