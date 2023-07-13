@@ -172,24 +172,47 @@ public class AllotmentService {
 			if (findById.isEmpty())
 				throw new Exception("No Slot available for given date");
 			TimeStamp timeStamp = findById.get();
+			int mi=-1,i=0,ind=-1;
 			for (Slot s : timeStamp.getSlots()) {
-				if (!s.isBooked()) {
-					if (slot == s.getMinutes()) {
-						s.setBooked(true);
-						timeStampRepo.save(timeStamp);
-						return new ApiResponse("success", List.of(s));
-					} else if (s.getMinutes() > slot) {
-						LocalTime newStart = s.getStart().plusMinutes(slot);
-						timeStamp.getSlots()
-								.add(new Slot(newStart, s.getEnd(), s.getMinutes() - slot, false, timeStamp));
-						s.setEnd(newStart);
-						s.setBooked(true);
-						s.setMinutes(slot);
-						timeStampRepo.save(timeStamp);
-						return new ApiResponse("success", List.of(s));
+				int minutes = s.getMinutes();
+				if (!s.isBooked() && minutes>=slot) {
+					if(mi==-1)
+					{
+						mi = minutes;
+						ind=i;
+					
+					}else if(mi>minutes)
+					{
+						mi = minutes;
+						ind=i;
 					}
+					
 				}
+				i++;
 
+			}
+			if(ind==-1)
+			{
+				
+				throw new Exception("Slot not found");
+			}
+			else
+			{
+				Slot s=timeStamp.getSlots().get(ind);
+				if (slot == s.getMinutes()) {
+					s.setBooked(true);
+					timeStampRepo.save(timeStamp);
+					return new ApiResponse("success", List.of(s));
+				} else if (s.getMinutes() > slot) {
+					LocalTime newStart = s.getStart().plusMinutes(slot);
+					timeStamp.getSlots()
+							.add(new Slot(newStart, s.getEnd(), s.getMinutes() - slot, false, timeStamp));
+					s.setEnd(newStart);
+					s.setBooked(true);
+					s.setMinutes(slot);
+					timeStampRepo.save(timeStamp);
+					return new ApiResponse("success", List.of(s));
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
