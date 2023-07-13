@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.slot.entities.TimeStamp;
+import com.slot.entities.TimeStampDto;
 import com.slot.response.ApiResponse;
 import com.slot.services.AllotmentService;
 
@@ -55,12 +56,14 @@ public class MyController {
 		else 
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 	}
+	/*Getting list of slots availabel for given date and given time slot*/
 	
-	@PostMapping("/{date}/{slot}")
-	public ResponseEntity<ApiResponse> allotSlotInDate(@PathVariable("date") String date,@PathVariable("slot") Integer slot)
-	{
-		System.out.println(date+slot);
-		ApiResponse response=allotmentService.allotSlotInDate(date,slot);
+	
+	
+	@PostMapping("/slot")
+	public ResponseEntity<ApiResponse> allotSlotInDate(@RequestBody TimeStampDto timeStampDto)
+	{ 
+		ApiResponse response=allotmentService.allotSlotInDate(timeStampDto);
 		if(response.getStatus()=="success")
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 		else 

@@ -1,7 +1,6 @@
 package com.slot.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class CompositeKey implements Serializable {

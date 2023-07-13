@@ -3,7 +3,9 @@ package com.slot.entities;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,7 +13,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@IdClass(CompositeKey.class)
+@IdClass(CompositeKey.class) 
 public class Slot {
 
 
@@ -27,29 +29,48 @@ public class Slot {
 		this.end = end;
 	}
 	private boolean booked;
+	
 	@JsonIgnore
 	@ManyToOne
 	@Id
 	private TimeStamp timeStamp;
 	
+	@JsonGetter(value = "start")
+	public String getStartString()
+	{
+		return  DateTimeFormatter.ofPattern("hh:mm a").format(this.start);
+
+	}
+	@JsonGetter(value = "end")
+	public String getEndString()
+	{
+		return  DateTimeFormatter.ofPattern("hh:mm a").format(this.end); 
+	}
 	public boolean isBooked() {
 		return booked;
 	}
 	public void setBooked(boolean booked) {
 		this.booked = booked;
 	}
+	@JsonIgnore
 	public LocalTime getStart() {
 		return start;
 	}
+	
+	@JsonSetter
 	public void setStart(String st) {
-		LocalTime start=LocalTime.parse(st,DateTimeFormatter.ofPattern("HH:mm"));
+		LocalTime start=LocalTime.parse(st,DateTimeFormatter.ofPattern("hh:mm a"));
 		this.start = start;
 	}
+	@JsonIgnore
 	public LocalTime getEnd() {
 		return end;
 	}
+	
+	
+	@JsonSetter
 	public void setEnd(String en) {
-		LocalTime end=LocalTime.parse(en,DateTimeFormatter.ofPattern("HH:mm"));
+		LocalTime end=LocalTime.parse(en,DateTimeFormatter.ofPattern("hh:mm a"));
 		this.end = end;
 	}
 	public TimeStamp getTimeStamp() {
