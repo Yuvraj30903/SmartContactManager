@@ -70,5 +70,16 @@ public class MyController {
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(response);
 	}
 	
+	
+	@PostMapping("/{date}/{slot}")
+	public ResponseEntity<ApiResponse> allotSlotInDate(@PathVariable("date") String date,@PathVariable("slot") int slot)
+	{ 
+		ApiResponse response=allotmentService.allotSlotInDate(date,slot);
+		if(response.getStatus()=="success")
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+		else 
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(response);
+	}
+	
 
 }

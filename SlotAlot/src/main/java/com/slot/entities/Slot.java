@@ -18,16 +18,25 @@ public class Slot {
 
 
 	@Id
-	private LocalTime start;
-	@Id
+	private LocalTime start; 
 	private LocalTime end;
 
+	private int minutes;
 	public void setStart(LocalTime start) {
 		this.start = start;
 	}
 	public void setEnd(LocalTime end) {
 		this.end = end;
 	}
+	@JsonIgnore
+	public int getMinutes() {
+		return minutes;
+	}
+	@JsonIgnore
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
+	}
+
 	private boolean booked;
 	
 	@JsonIgnore
@@ -93,6 +102,14 @@ public class Slot {
 	@Override
 	public String toString() {
 		return "Slot [start=" + start + ", end=" + end + ", booked=" + booked +  "]";
+	}
+	public Slot(LocalTime start, LocalTime end, int minutes, boolean booked, TimeStamp timeStamp) {
+		super();
+		this.start = start;
+		this.end = end;
+		this.minutes = minutes;
+		this.booked = booked;
+		this.timeStamp = timeStamp;
 	}
 	
 	

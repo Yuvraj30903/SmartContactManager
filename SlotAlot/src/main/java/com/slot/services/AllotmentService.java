@@ -28,6 +28,8 @@ public class AllotmentService {
 	public ApiResponse addDateAndSlot(TimeStamp timeStamp) {
 			try {
 				for (Slot s : timeStamp.getSlots()) {
+					int minutes = (int) ChronoUnit.MINUTES.between(s.getStart(), s.getEnd());
+					s.setMinutes(minutes);
 					s.setTimeStamp(timeStamp);
 					if(s.getEnd().compareTo(s.getStart()) != 1)
 						throw new Exception("Invalid input");
@@ -79,6 +81,8 @@ public class AllotmentService {
 
 		try {
 			for (Slot s : timeStamp.getSlots()) {
+				int minutes = (int) ChronoUnit.MINUTES.between(s.getStart(), s.getEnd());
+				s.setMinutes(minutes);
 				s.setTimeStamp(timeStamp);
 				if(s.getEnd().compareTo(s.getStart()) != 1)
 					throw new Exception("Invalid input");
@@ -159,7 +163,10 @@ public class AllotmentService {
 		return new ApiResponse("failed", List.of("Failed to Allot a slot in given date"));
 	}
 	
-	public ApiResponse allotSlotInDate(String date, Integer slot) {
+	
+	/* Slot will be allot to you automatically */
+
+public ApiResponse allotSlotInDate(String date, Integer slot) {
 		
 		try {
 			//hh:mm
@@ -170,30 +177,32 @@ public class AllotmentService {
 			{ 
 				if(!s.isBooked())
 				{
-					int between = (int) ChronoUnit.MINUTES.between(s.getStart(), s.getEnd());
-					if(between>slot) {
-						timeStampRepo.deleteById(date);
-						LocalTime newStart=s.getStart();
-						LocalTime newEnd=s.getStart().plusMinutes(slot);
-						Slot slot2 = new Slot(newStart,newEnd,true,timeStamp);
-						s.setStart(newEnd);
-						timeStamp.getSlots().add(slot2); 
-						timeStampRepo.save(timeStamp);
-						return new ApiResponse("success",List.of(slot2));
-					}
-					else if(between==slot){
-						s.setBooked(true);
-						timeStampRepo.save(timeStamp);
-						return new ApiResponse("success",List.of(s));
-					}
+					 if(slot==s.getMinutes())
+					 {
+						 s.setBooked(true);
+						 timeStampRepo.save(timeStamp);
+						 return new ApiResponse("success",List.of(s));
+					 }
+					 else if(s.getMinutes()>slot)
+					 {
+						 LocalTime newStart=s.getStart().plusMinutes(slot);
+						 timeStamp.getSlots().add(new Slot(newStart,s.getEnd(),s.getMinutes()-slot,false,timeStamp));
+						 s.setEnd(newStart);
+						 s.setBooked(true);
+						 s.setMinutes(slot); 
+						 timeStampRepo.save(timeStamp);
+						 return new ApiResponse("success",List.of(s));
+					 }
 				}
 				
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return new ApiResponse("failed",List.of("Failed to Allot a slot in given date"));
 	}
+	
+	
 	
 
 
