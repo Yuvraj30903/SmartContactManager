@@ -34,7 +34,7 @@ public class MyController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	}
 	/* Updating existing timeSlot */
-	@PutMapping("/date/slot")
+	@PutMapping("/date")
 	public ResponseEntity<ApiResponse> addSlotToDate(@RequestBody TimeStamp timeStamp)
 	{
 		

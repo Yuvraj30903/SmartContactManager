@@ -142,14 +142,14 @@ public class AllotmentService {
 					LocalTime end = s.getEnd();
 
 					if (startDto.compareTo(start) != -1 && end.compareTo(endDto) != -1) {
-						timeStampRepo.delete(timeStamp);
+						
 						timeStamp.getSlots().remove(s);
 						if (!start.equals(startDto))
-							timeStamp.getSlots().add(new Slot(start, startDto, false, timeStamp));
-						timeStamp.getSlots().add(new Slot(startDto, endDto, true, timeStamp));
+							timeStamp.getSlots().add(new Slot(start, startDto,(int) ChronoUnit.MINUTES.between(start,startDto) ,false, timeStamp));
+						timeStamp.getSlots().add(new Slot(startDto, endDto,(int) ChronoUnit.MINUTES.between(startDto,endDto) , true, timeStamp));
 
 						if (!end.equals(endDto))
-							timeStamp.getSlots().add(new Slot(endDto, end, false, timeStamp));
+							timeStamp.getSlots().add(new Slot(endDto, end,(int) ChronoUnit.MINUTES.between(endDto,end) , false, timeStamp));
 						timeStampRepo.save(timeStamp);
 						return new ApiResponse("success", List.of("Given Slot Alloted to you successfully"));
 					}
