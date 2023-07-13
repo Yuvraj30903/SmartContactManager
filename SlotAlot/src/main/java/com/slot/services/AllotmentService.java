@@ -81,13 +81,15 @@ public class AllotmentService {
 				if (s.getEnd().compareTo(s.getStart()) != 1)
 					throw new Exception("Invalid input");
 			}
-			boolean valid = checkValidityOfSlots(timeStamp.getSlots());
-			if (!valid)
-				throw new Exception("Slots are invalid");
 
 			Optional<TimeStamp> findById = timeStampRepo.findById(timeStamp.getDate());
 			if (findById.isEmpty())
 				throw new Exception("Date Not present !!");
+			List<Slot> slots = findById.get().getSlots();
+			slots.addAll(timeStamp.getSlots());
+			boolean valid = checkValidityOfSlots(slots);
+			if (!valid)
+				throw new Exception("Slots are invalid");
 			timeStampRepo.save(timeStamp);
 			TimeStamp save = timeStampRepo.findById(timeStamp.getDate()).get();
 			return new ApiResponse("success", List.of(save));
