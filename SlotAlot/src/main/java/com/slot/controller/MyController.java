@@ -58,7 +58,15 @@ public class MyController {
 	}
 	/*Getting list of slots availabel for given date and given time slot*/
 	
-	
+	@GetMapping("/{date}/{slot}")
+	public ResponseEntity<ApiResponse> getTimeStamp(@PathVariable String date,@PathVariable Integer slot)
+	{ 
+		ApiResponse response = allotmentService.getTimeStampByDate(date,slot); 
+		if(response.getStatus()=="success")
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		else 
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	}
 	
 	@PostMapping("/slot")
 	public ResponseEntity<ApiResponse> allotSlotInDate(@RequestBody TimeStampDto timeStampDto)

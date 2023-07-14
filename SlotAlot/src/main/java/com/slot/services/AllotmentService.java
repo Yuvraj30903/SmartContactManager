@@ -172,41 +172,35 @@ public class AllotmentService {
 			if (findById.isEmpty())
 				throw new Exception("No Slot available for given date");
 			TimeStamp timeStamp = findById.get();
-			int mi=-1,i=0,ind=-1;
+			int mi = -1, i = 0, ind = -1;
 			for (Slot s : timeStamp.getSlots()) {
 				int minutes = s.getMinutes();
-				if (!s.isBooked() && minutes>=slot) {
-					if(mi==-1)
-					{
+				if (!s.isBooked() && minutes >= slot) {
+					if (mi == -1) {
 						mi = minutes;
-						ind=i;
-					
-					}else if(mi>minutes)
-					{
+						ind = i;
+
+					} else if (mi > minutes) {
 						mi = minutes;
-						ind=i;
+						ind = i;
 					}
-					
+
 				}
 				i++;
 
 			}
-			if(ind==-1)
-			{
-				
+			if (ind == -1) {
+
 				throw new Exception("Slot not found");
-			}
-			else
-			{
-				Slot s=timeStamp.getSlots().get(ind);
+			} else {
+				Slot s = timeStamp.getSlots().get(ind);
 				if (slot == s.getMinutes()) {
 					s.setBooked(true);
 					timeStampRepo.save(timeStamp);
 					return new ApiResponse("success", List.of(s));
 				} else if (s.getMinutes() > slot) {
 					LocalTime newStart = s.getStart().plusMinutes(slot);
-					timeStamp.getSlots()
-							.add(new Slot(newStart, s.getEnd(), s.getMinutes() - slot, false, timeStamp));
+					timeStamp.getSlots().add(new Slot(newStart, s.getEnd(), s.getMinutes() - slot, false, timeStamp));
 					s.setEnd(newStart);
 					s.setBooked(true);
 					s.setMinutes(slot);
@@ -218,6 +212,23 @@ public class AllotmentService {
 			System.out.println(e.getMessage());
 		}
 		return new ApiResponse("failed", List.of("Failed to Allot a slot in given date"));
+	}
+
+	public ApiResponse getTimeStampByDate(String date, Integer slot) {
+
+		try {
+			Optional<TimeStamp> findById = timeStampRepo.findById(date);
+			if (findById.isEmpty())
+				throw new Exception("Time stamp not found");
+			TimeStamp save = findById.get();
+			List<Slot> list = save.getSlots().stream().filter(e -> e.isBooked() == false && e.getMinutes()>=slot).collect(Collectors.toList());
+			save.setSlots(list);
+			return new ApiResponse("success", List.of(save));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			// TODO: handle exception
+		}
+		return new ApiResponse("failed", List.of("Time stamp not found !!!"));
 	}
 
 }
